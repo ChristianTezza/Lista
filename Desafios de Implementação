@@ -1,0 +1,46 @@
+#include <stdio.h>
+
+void menu() {
+    printf("Escolha uma opção:\n");
+    printf("1. Busca Binária\n");
+    printf("2. Interpolation Search\n");
+    printf("3. Quick Sort\n");
+    printf("4. Merge Sort\n");
+    printf("0. Sair\n");
+}
+
+int main() {
+    int choice;
+
+    do {
+        menu();
+        printf("Opção: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Executando Busca Binária...\n");
+                // Chamar função de Binary Search
+                break;
+            case 2:
+                printf("Executando Interpolation Search...\n");
+                // Chamar função de Interpolation Search
+                break;
+            case 3:
+                printf("Executando Quick Sort...\n");
+                // Chamar função de Quick Sort
+                break;
+            case 4:
+                printf("Executando Merge Sort...\n");
+                // Chamar função de Merge Sort
+                break;
+            case 0:
+                printf("Encerrando programa...\n");
+                break;
+            default:
+                printf("Opção inválida. Tente novamente.\n");
+        }
+    } while (choice != 0);
+
+    return 0;
+}
