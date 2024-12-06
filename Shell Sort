@@ -1,0 +1,54 @@
+#include <stdio.h>
+
+void shellSort(int arr[], int size, int gapSeq) {
+    int gap, i, j, temp;
+
+    // Escolha de sequência de intervalos
+    if (gapSeq == 1) { // Sequência de Shell
+        for (gap = size / 2; gap > 0; gap /= 2) {
+            for (i = gap; i < size; i++) {
+                temp = arr[i];
+                for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
+                    arr[j] = arr[j - gap];
+                }
+                arr[j] = temp;
+            }
+        }
+    } else if (gapSeq == 2) { // Sequência de Knuth
+        gap = 1;
+        while (gap < size / 3) {
+            gap = 3 * gap + 1;
+        }
+        while (gap > 0) {
+            for (i = gap; i < size; i++) {
+                temp = arr[i];
+                for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
+                    arr[j] = arr[j - gap];
+                }
+                arr[j] = temp;
+            }
+            gap = (gap - 1) / 3;
+        }
+    }
+}
+
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int arr[] = {12, 34, 54, 2, 3, 99, 1, 23};
+    int size = sizeof(arr) / sizeof(arr[0]);
+
+    printf("Array original: ");
+    printArray(arr, size);
+
+    shellSort(arr, size, 1); // Usando sequência de Shell
+    printf("Array ordenado (Shell): ");
+    printArray(arr, size);
+
+    return 0;
+}
