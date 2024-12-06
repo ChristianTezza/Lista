@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define BUCKETS 10
+
+void bucketSort(float arr[], int size) {
+    // Criar baldes vazios
+    float buckets[BUCKETS][size];
+    int count[BUCKETS] = {0};
+
+    // Distribuir elementos nos baldes
+    for (int i = 0; i < size; i++) {
+        int bucketIndex = arr[i] * BUCKETS; // Calcular o balde para o elemento
+        buckets[bucketIndex][count[bucketIndex]++] = arr[i];
+    }
+
+    // Ordenar baldes individualmente (usando Bubble Sort para simplicidade)
+    for (int i = 0; i < BUCKETS; i++) {
+        for (int j = 0; j < count[i] - 1; j++) {
+            for (int k = 0; k < count[i] - j - 1; k++) {
+                if (buckets[i][k] > buckets[i][k + 1]) {
+                    float temp = buckets[i][k];
+                    buckets[i][k] = buckets[i][k + 1];
+                    buckets[i][k + 1] = temp;
+                }
+            }
+        }
+    }
+
+    // Combinar baldes de volta no array original
+    int index = 0;
+    for (int i = 0; i < BUCKETS; i++) {
+        for (int j = 0; j < count[i]; j++) {
+            arr[index++] = buckets[i][j];
+        }
+    }
+}
+
+void printArray(float arr[], int size) {
+    for (int i = 0; i < size; i++) {
+        printf("%.2f ", arr[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    float arr[] = {0.42, 0.32, 0.23, 0.52, 0.25, 0.47, 0.36};
+    int size = sizeof(arr) / sizeof(arr[0]);
+
+    printf("Array original: ");
+    printArray(arr, size);
+
+    bucketSort(arr, size);
+    printf("Array ordenado: ");
+    printArray(arr, size);
+
+    return 0;
+}
