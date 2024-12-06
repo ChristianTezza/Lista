@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <math.h>
+
+int jumpSearch(int arr[], int size, int target) {
+    int step = sqrt(size); // Tamanho do salto
+    int prev = 0;
+
+    // Realiza saltos até que o elemento seja maior ou igual ao do intervalo atual
+    while (arr[fmin(step, size) - 1] < target) {
+        prev = step;
+        step += sqrt(size);
+        if (prev >= size) {
+            return -1; // Elemento não encontrado
+        }
+    }
+
+    // Busca linear no intervalo
+    for (int i = prev; i < fmin(step, size); i++) {
+        if (arr[i] == target) {
+            return i;
+        }
+    }
+
+    return -1; // Elemento não encontrado
+}
+
+int main() {
+    int arr[] = {1, 3, 5, 7, 9, 11, 13, 15, 17, 19};
+    int size = sizeof(arr) / sizeof(arr[0]);
+    int target = 13;
+
+    int result = jumpSearch(arr, size, target);
+    if (result != -1) {
+        printf("Elemento %d encontrado no índice %d.\n", target, result);
+    } else {
+        printf("Elemento %d não encontrado.\n", target);
+    }
+    return 0;
+}
