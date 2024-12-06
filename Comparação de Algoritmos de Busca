@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <time.h>
+
+int binarySearch(int arr[], int left, int right, int x) {
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (arr[mid] == x) return mid;
+        if (arr[mid] < x) left = mid + 1;
+        else right = mid - 1;
+    }
+    return -1;
+}
+
+int interpolationSearch(int arr[], int size, int x) {
+    int low = 0, high = size - 1;
+    while (low <= high && x >= arr[low] && x <= arr[high]) {
+        int pos = low + (((double)(high - low) / (arr[high] - arr[low])) * (x - arr[low]));
+
+        if (arr[pos] == x) return pos;
+        if (arr[pos] < x) low = pos + 1;
+        else high = pos - 1;
+    }
+    return -1;
+}
+
+// Função de comparação de tempos
+void compareSearches(int arr[], int size, int x) {
+    clock_t start, end;
+
+    start = clock();
+    binarySearch(arr, 0, size - 1, x);
+    end = clock();
+    printf("Binary Search: %lf segundos\n", ((double)(end - start)) / CLOCKS_PER_SEC);
+
+    start = clock();
+    interpolationSearch(arr, size, x);
+    end = clock();
+    printf("Interpolation Search: %lf segundos\n", ((double)(end - start)) / CLOCKS_PER_SEC);
+}
+
+int main() {
+    int arr[10000];
+    for (int i = 0; i < 10000; i++) {
+        arr[i] = i + 1;
+    }
+
+    int x = 5678;
+
+    compareSearches(arr, 10000, x);
+
+    return 0;
+}
