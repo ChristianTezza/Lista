@@ -1,0 +1,56 @@
+#include <stdio.h>
+
+// Função para trocar dois elementos
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+// Particiona o array usando o último elemento como pivô
+int partition(int arr[], int low, int high) {
+    int pivot = arr[high]; // Pivô é o último elemento
+    int i = low - 1;
+
+    for (int j = low; j < high; j++) {
+        if (arr[j] < pivot) {
+            i++;
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i + 1], &arr[high]);
+    return i + 1;
+}
+
+// Implementa o Quick Sort
+void quickSort(int arr[], int low, int high) {
+    if (low < high) {
+        int pi = partition(arr, low, high);
+
+        // Recursivamente ordena as sublistas
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+// Função para imprimir o array
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int arr[] = {10, 7, 8, 9, 1, 5};
+    int size = sizeof(arr) / sizeof(arr[0]);
+
+    printf("Array original: ");
+    printArray(arr, size);
+
+    quickSort(arr, 0, size - 1);
+    printf("Array ordenado: ");
+    printArray(arr, size);
+
+    return 0;
+}
