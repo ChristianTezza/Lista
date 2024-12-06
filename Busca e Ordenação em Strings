@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <string.h>
+
+void merge(char arr[][50], int left, int mid, int right) {
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+
+    char leftArray[n1][50], rightArray[n2][50];
+
+    for (int i = 0; i < n1; i++) strcpy(leftArray[i], arr[left + i]);
+    for (int i = 0; i < n2; i++) strcpy(rightArray[i], arr[mid + 1 + i]);
+
+    int i = 0, j = 0, k = left;
+
+    while (i < n1 && j < n2) {
+        if (strcmp(leftArray[i], rightArray[j]) <= 0) {
+            strcpy(arr[k], leftArray[i]);
+            i++;
+        } else {
+            strcpy(arr[k], rightArray[j]);
+            j++;
+        }
+        k++;
+    }
+
+    while (i < n1) strcpy(arr[k++], leftArray[i++]);
+    while (j < n2) strcpy(arr[k++], rightArray[j++]);
+}
+
+void mergeSort(char arr[][50], int left, int right) {
+    if (left < right) {
+        int mid = left + (right - left) / 2;
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+        merge(arr, left, mid, right);
+    }
+}
+
+void printArray(char arr[][50], int size) {
+    for (int i = 0; i < size; i++) {
+        printf("%s\n", arr[i]);
+    }
+}
+
+int main() {
+    char arr[][50] = {"banana", "apple", "orange", "grape", "pear"};
+    int size = sizeof(arr) / sizeof(arr[0]);
+
+    printf("Array original:\n");
+    printArray(arr, size);
+
+    mergeSort(arr, 0, size - 1);
+
+    printf("\nArray ordenado:\n");
+    printArray(arr, size);
+
+    return 0;
+}
