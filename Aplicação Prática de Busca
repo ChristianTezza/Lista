@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <string.h>
+
+typedef struct {
+    long isbn;
+    char title[100];
+} Book;
+
+// Função de busca binária para encontrar o livro pelo ISBN
+int binarySearch(Book books[], int size, long targetISBN) {
+    int left = 0, right = size - 1;
+
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+
+        if (books[mid].isbn == targetISBN) {
+            return mid;
+        } else if (books[mid].isbn < targetISBN) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+    return -1; // ISBN não encontrado
+}
+
+int main() {
+    Book books[] = {
+        {9780321751041, "The C Programming Language"},
+        {9780131103627, "C Programming: A Modern Approach"},
+        {9780201633610, "The Design of Everyday Things"},
+        {9780134685991, "Clean Code"},
+        {9780132350884, "Code Complete"}
+    };
+
+    int size = sizeof(books) / sizeof(books[0]);
+    long targetISBN = 9780134685991;
+
+    int result = binarySearch(books, size, targetISBN);
+
+    if (result != -1) {
+        printf("Livro encontrado: %s (ISBN: %ld)\n", books[result].title, books[result].isbn);
+    } else {
+        printf("ISBN não encontrado.\n");
+    }
+
+    return 0;
+}
