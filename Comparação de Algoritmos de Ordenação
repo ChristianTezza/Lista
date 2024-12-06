@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+// Funções de ordenação já implementadas anteriormente (Shell Sort, Merge Sort, etc.)
+// Insira as funções de cada algoritmo de ordenação aqui, como foram apresentadas anteriormente.
+
+// Função para copiar arrays
+void copyArray(int source[], int dest[], int size) {
+    for (int i = 0; i < size; i++) {
+        dest[i] = source[i];
+    }
+}
+
+// Função para medir tempo de execução
+void measureSortTime(void (*sortFunction)(int[], int), int arr[], int size, const char *algorithmName) {
+    int *temp = (int *)malloc(size * sizeof(int));
+    copyArray(arr, temp, size);
+
+    clock_t start = clock();
+    sortFunction(temp, size);
+    clock_t end = clock();
+
+    printf("%s: %lf segundos\n", algorithmName, ((double)(end - start)) / CLOCKS_PER_SEC);
+    free(temp);
+}
+
+int main() {
+    int arr[10000];
+    for (int i = 0; i < 10000; i++) {
+        arr[i] = rand() % 10000;
+    }
+    int size = sizeof(arr) / sizeof(arr[0]);
+
+    // Testar e comparar os tempos de execução de cada algoritmo
+    measureSortTime(shellSort, arr, size, "Shell Sort");
+    measureSortTime(mergeSort, arr, size, "Merge Sort");
+    measureSortTime(selectionSort, arr, size, "Selection Sort");
+    measureSortTime(quickSort, arr, size, "Quick Sort");
+    measureSortTime(bucketSort, arr, size, "Bucket Sort");
+    measureSortTime(radixSort, arr, size, "Radix Sort");
+
+    return 0;
+}
